@@ -1,59 +1,30 @@
 #include <USB.h>
-
 #include <USBHIDKeyboard.h>
 
 USBHIDKeyboard Keyboard;
 
-
-
 char keys[] = {'w', 's', 'a', 'd', ' '};
-
 int totalKeys = 5;
 
-
-
 void setup() {
+  USB.begin();
+  Keyboard.begin();
 
-USB.begin();
-
-Keyboard.begin();
-
-
-
-randomSeed(analogRead(0));
-
+  randomSeed(analogRead(0));
 }
-
-
 
 void loop() {
+  int randomIdx = random(0, totalKeys);
+  char selectedKey = keys[randomIdx];
 
-int randomIdx = random(0, totalKeys);
+  Keyboard.press(selectedKey);
+  delay(random(150, 400));
+  Keyboard.releaseAll();
 
-char selectedKey = keys[randomIdx];
+  if (selectedKey == ' ') {
+    delay(500);
+  }
 
-
-
-Keyboard.press(selectedKey);
-
-
-
-delay(random(150, 400));
-
-
-
-Keyboard.releaseAll();
-
-
-
-if (selectedKey == ' ') {
-
-delay(500);
-
+  long randomDelay = random(5500, 6500);
+  delay(randomDelay);
 }
-
-
-
-long randomDelay = random(5500, 6500);
-
-delay(randomDelay);
